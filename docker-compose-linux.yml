@@ -17,6 +17,8 @@ services:
       FDHT_PORT: 11411
       # docker所在的宿主机内网地址，默认使用eth0网卡的地址
       IP: 192.168.0.105
+      # 是否开启dht检测，可修改
+      FDHT_ENABLE: false
     volumes:
     # 将本地目录映射到docker容器内的fastdfs数据存储目录，将fastdfs文件存储到主机上，以免每次重建docker容器，之前存储的文件就丢失了。
     - ～/fastdfs:/var/local

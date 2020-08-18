@@ -113,6 +113,8 @@ ENV FDFS_PORT 22122
 # 默认storage_server端口
 ENV STORAGE_PORT 23000
 # 默认fastdht端口
+ENV FDHT_ENABLE true
+# 默认fastdht端口
 ENV FDHT_PORT 11411
 # 创建启动脚本
 RUN echo -e "\
@@ -131,7 +133,10 @@ sed -i \"s/^storage_server_port=.*$/storage_server_port=\$STORAGE_PORT/g\" /etc/
 sed -i \"s/^group0.*$/group0=\$IP:\$FDHT_PORT/\" /etc/fdht/fdht_servers.conf; \n\
 sed -i \"s/^port=.*$/port=\$FDHT_PORT/g\" /etc/fdht/fdhtd.conf; \n\
 sed -i \"4d\" /etc/fdht/fdht_servers.conf; \n\
-sed -i \"s/^check_file_duplicate=.*$/check_file_duplicate=1/g\" /etc/fdfs/storage.conf; \n\
+sed -i \"s/^check_file_duplicate=.*$/check_file_duplicate=0/g\" /etc/fdfs/storage.conf; \n\
+if [ \"\$FDHT_ENABLE\" = \"true\" ]; then \n\
+    sed -i \"s/^check_file_duplicate=.*$/check_file_duplicate=1/g\" /etc/fdfs/storage.conf; \n\
+fi \n\
 sed -i \"s/^keep_alive=.*$/keep_alive=1/g\" /etc/fdfs/storage.conf; \n\
 sed -i \"s/^##include \/home\/yuqing\/fastdht\/conf\/fdht_servers.conf/#include \/etc\/fdht\/fdht_servers.conf/g\" /etc/fdfs/storage.conf; \n\
 /etc/init.d/fdfs_trackerd start; \n\
